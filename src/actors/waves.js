@@ -1,6 +1,5 @@
 var Waves = function(attrs) {
   var SPRITE_RES = res.waves;
-  var SCALE = 0.2;
   var SPEED = 0.2;
   var ROT_SPEED = 0.05;
   var ROTATION = 5;

@@ -3,7 +3,6 @@
 function Container(space, startPos) {
     // CONSTANTS
     var SPRITE_RES  = res.container;
-    var SCALE       = 0.2;
     var ROTATION    = 0.01;
     var ROT_SPEED   = 0.04;
 

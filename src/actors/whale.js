@@ -3,7 +3,6 @@
 function Whale(space) {
     // CONSTANTS
     var SPRITE_RES      = res.docker_whale;
-    var SCALE           = 0.2;
     var MAX_ROT         = Math.PI / 6;
     var MAX_VELOCITY    = 100;
     var ROTATION        = 0.15;
@@ -30,7 +29,7 @@ function Whale(space) {
         var mass = 0.3*FLUID_DENSITY*bodySize.width*bodySize.height;
 
         self.body = new cp.Body(mass, cp.momentForBox(mass, bodySize.width, bodySize.height));
-        this.body.p = cc.p(g_runnerStartX, g_groundHeight + bodySize.height);
+        this.body.p = cc.p(400, WATER_HEIGHT + 10);
         this.body.w_limit = MAX_ROT;
         this.body.v_limit = MAX_VELOCITY;
 
@@ -58,8 +57,8 @@ function Whale(space) {
         self.angle += ROT_SPEED;
         self.body.applyImpulse(cp.v(Math.cos(self.angle) * (ROTATION), Math.sin(self.angle) * ROTATION), cp.v(0, 0));
 
-        this.sprite.x = this.bodySprite.x + 15;
-        this.sprite.y = this.bodySprite.y + 20;
+        this.sprite.x = this.bodySprite.x + 23;
+        this.sprite.y = this.bodySprite.y + 30;
         this.sprite.rotation = this.bodySprite.rotation;
     }
 
