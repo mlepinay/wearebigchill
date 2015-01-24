@@ -19,8 +19,6 @@ function Container(space, startPos) {
 
     // Initialization
     self.initialize = function() {
-        var bodySize;
-
         self.sprite = new cc.Sprite(SPRITE_RES);
         self.sprite.attr({ scale: SCALE });
 
@@ -28,20 +26,20 @@ function Container(space, startPos) {
 
         self.angle = 0;
 
-        bodySize = self.bodySprite.getContentSize();
-        bodySize.width  *= SCALE;
-        bodySize.height *= SCALE;
+        self.bodySize = self.bodySprite.getContentSize();
+        self.bodySize.width  *= SCALE;
+        self.bodySize.height *= SCALE;
 
-        self.size = bodySize.width;
+        self.size = self.bodySize.width;
 
-        var mass = 0.8*FLUID_DENSITY*bodySize.width*bodySize.height;
+        var mass = 0.8*FLUID_DENSITY*self.bodySize.width*self.bodySize.height;
 
-        self.body = new cp.Body(mass, cp.momentForBox(mass, bodySize.width, bodySize.height));
+        self.body = new cp.Body(mass, cp.momentForBox(mass, self.bodySize.width, self.bodySize.height));
         this.body.p = cc.p(startPos[0], startPos[1]);
 
         space.addBody(this.body);
 
-        this.shape = new cp.BoxShape(this.body, bodySize.width, bodySize.height);
+        this.shape = new cp.BoxShape(this.body, self.bodySize.width, self.bodySize.height);
         this.shape.setFriction(1);
         this.shape.setCollisionType(42);
 
@@ -54,7 +52,7 @@ function Container(space, startPos) {
 
     self.update = function() {
         if (self.removed)
-            return null
+            return null            
 
         if (WATER_HEIGHT >= (this.bodySprite.y - self.size)) {
             // self.angle += ROT_SPEED;
@@ -97,9 +95,12 @@ function Container(space, startPos) {
         this.sprite.y = this.bodySprite.y;
         this.sprite.rotation = this.bodySprite.rotation;
 
-        if (this.sprite.y < 0) {
+        if (this.sprite.y < 0 - self.bodySize.height) {
             self.vanishFromWorld()
         }
+
+        if (self.containerState == "Water")
+            return "lostContainer";
 
         return (false);
     }

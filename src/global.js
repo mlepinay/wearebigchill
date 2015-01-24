@@ -9,6 +9,7 @@ var WATER_HEIGHT = 150;
 var SCALE           = 0.3;
 
 var MAX_COMBO = 10;
+var MAX_LOST_CONTAINERS = 5;
 
 var g_waterPreSolve = function(arb, space, ptr) {
 	var shapes = arb.getShapes();

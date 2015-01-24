@@ -3,6 +3,7 @@ var AnimationLayer = cc.Layer.extend({
     whale: null,
     waves: null,
     combo: 0,
+    minusPoint: 0,
 
     ctor:function (space) {
         //////////////////////////////
@@ -16,7 +17,10 @@ var AnimationLayer = cc.Layer.extend({
     init: function() {
         var self = this;
 
-        var handledIds = {};
+        var handledIdsPlus = {};
+
+        this.handleIdsMinus = {};
+        this.menu = false;
 
         this.containers = [new Container(this.space, [400, 500])];
         this.addChild(this.containers[0].sprite, 0);
@@ -34,13 +38,13 @@ var AnimationLayer = cc.Layer.extend({
                 var containerShape = arb.getShapes()[1];
                 var id = containerShape.hashid;
 
-                if (!handledIds[id]) {
+                if (!handledIdsPlus[id]) {
                     var container = self.getContainerFromId(id);
 
                     if (container) {
                         self.combo = 0;
                         container.handleWaterTouch();
-                        handledIds[id] = true;
+                        handledIdsPlus[id] = true;
                     }                    
                 }
 
@@ -72,14 +76,29 @@ var AnimationLayer = cc.Layer.extend({
     update: function(dt) {
         var self = this;
 
+        if (self.menu)
+            return
+
         this.whale.update();
         this.waves.update();
         for (var i = this.containers.length - 1; i >= 0; i--) {
-            if (this.containers[i].update() == "requireContainer") {
+            var updateStatus = this.containers[i].update();
+
+            if (updateStatus == "requireContainer") {
                 self.combo += 1;
                 container = new Container(self.space, [400,500]);
                 self.addChild(container.sprite, 0);
                 self.containers.push(container);
+            } else if (updateStatus == "lostContainer") {
+                var id = self.containers[i].shape.hashid;
+                if (!self.handleIdsMinus[id]) {
+                    self.minusPoint += 1;
+                    if (self.minusPoint >= MAX_LOST_CONTAINERS) {
+                        self.menu = true;
+                        self.addChild(new GameOverLayer(), 15);
+                    }                 
+                    self.handleIdsMinus[id] = true;  
+                }
             }
         };
         if (self.combo >= MAX_COMBO) {
