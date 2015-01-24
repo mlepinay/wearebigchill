@@ -17,7 +17,7 @@ var GameScene = cc.Scene.extend({
 
         // init space of chipmunk
     initPhysics:function() {
-        //1. new space object 
+        //1. new space object
         this.space = new cp.Space();
         //2. setup the  Gravity
         this.space.gravity = cp.v(0, -500);
