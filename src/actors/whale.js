@@ -14,7 +14,7 @@ function Whale(space) {
         self.sprite = new cc.Sprite(SPRITE_RES);
         self.sprite.attr({ scale: SCALE });
 
-        self.bodySprite = new cc.PhysicsSprite(res.docker_whale);
+        self.bodySprite = new cc.PhysicsSprite(res.docker_whale_body);
 
         bodySize = self.bodySprite.getContentSize();
         bodySize.width  *= SCALE;
@@ -38,8 +38,9 @@ function Whale(space) {
     }
 
     self.update = function() {
-        this.sprite.x = this.bodySprite.x;
-        this.sprite.y = this.bodySprite.y;
+        this.sprite.x = this.bodySprite.x + 15;
+        this.sprite.y = this.bodySprite.y + 20;
+        this.sprite.rotation = this.bodySprite.rotation;
     }
 
     self.moveLeft = function() {
