@@ -28,7 +28,7 @@ function Container(space, startPos) {
         space.addBody(this.body);
 
         this.shape = new cp.BoxShape(this.body, bodySize.width, bodySize.height);
-        this.shape.setFriction(0.6);
+        this.shape.setFriction(1);
 
         space.addShape(this.shape);
         this.bodySprite.setBody(this.body);
@@ -38,6 +38,8 @@ function Container(space, startPos) {
     }
 
     self.update = function() {
+        if (Math.random() < 0.2)
+            this.body.applyImpulse(cp.v(0, -0.01), cp.v(0, 0));
         this.sprite.x = this.bodySprite.x;
         this.sprite.y = this.bodySprite.y;
         this.sprite.rotation = this.bodySprite.rotation;

@@ -6,9 +6,11 @@ var GameScene = cc.Scene.extend({
         var layer = new AnimationLayer(this.space);
         this.addChild(layer);
 
-      //   var debugNode = new cc.PhysicsDebugNode(this.space);
-    		// debugNode.visible = true;
-    		// this.addChild(debugNode);
+        if (window.location.href.match(/debug/)) {
+          var debugNode = new cc.PhysicsDebugNode(this.space);
+      		debugNode.visible = true;
+      		this.addChild(debugNode);
+        }
 
         this.scheduleUpdate();
     },
