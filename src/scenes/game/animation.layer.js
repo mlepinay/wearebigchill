@@ -11,6 +11,9 @@ var AnimationLayer = cc.Layer.extend({
     },
 
     init: function() {
+        this.containers = [new Container(this.space, [160, 500])];
+        this.addChild(this.containers[0].sprite, 0);
+
         this.whale = new Whale(this.space);
         this.addChild(this.whale.sprite, 0);
 
@@ -34,5 +37,8 @@ var AnimationLayer = cc.Layer.extend({
 
     update: function(dt) {
         this.whale.update();
+        for (var i = this.containers.length - 1; i >= 0; i--) {
+            this.containers[i].update();
+        };
     }
 });

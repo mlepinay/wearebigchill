@@ -1,8 +1,8 @@
 
 
-function Whale(space) {
+function Container(space, startPos) {
     // CONSTANTS
-    var SPRITE_RES  = res.docker_whale;
+    var SPRITE_RES  = res.container;
     var SCALE       = 0.2;
 
     var self = this;
@@ -14,7 +14,7 @@ function Whale(space) {
         self.sprite = new cc.Sprite(SPRITE_RES);
         self.sprite.attr({ scale: SCALE });
 
-        self.bodySprite = new cc.PhysicsSprite(res.docker_whale);
+        self.bodySprite = new cc.PhysicsSprite(res.container);
 
         bodySize = self.bodySprite.getContentSize();
         bodySize.width  *= SCALE;
@@ -23,7 +23,7 @@ function Whale(space) {
         var mass = 0.3*FLUID_DENSITY*bodySize.width*bodySize.height;
 
         self.body = new cp.Body(mass, cp.momentForBox(mass, bodySize.width, bodySize.height));
-        this.body.p = cc.p(g_runnerStartX, g_groundHeight + bodySize.height);
+        this.body.p = cc.p(startPos[0], startPos[1]);
 
         space.addBody(this.body);
 
@@ -40,13 +40,7 @@ function Whale(space) {
     self.update = function() {
         this.sprite.x = this.bodySprite.x;
         this.sprite.y = this.bodySprite.y;
-    }
-
-    self.moveLeft = function() {
-        self.body.applyImpulse(cp.v(-150, -20), cp.v(0, 0));
-    }
-    self.moveRight = function() {
-        self.body.applyImpulse(cp.v(150, -20), cp.v(0, 0));
+        this.sprite.rotation = this.bodySprite.rotation;
     }
 
     self.initialize();

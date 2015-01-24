@@ -37,11 +37,6 @@ var GameScene = cc.Scene.extend({
 		shape.setFriction(1.0);
 		shape.setLayers(NOT_GRABABLE_MASK);
 
-		shape = this.space.addShape( new cp.SegmentShape(staticBody, cp.v(0,0), cp.v(800,0), 0.0));
-		shape.setElasticity(1.0);
-		shape.setFriction(1.0);
-		shape.setLayers(NOT_GRABABLE_MASK);
-
 		shape = this.space.addShape( new cp.SegmentShape(staticBody, cp.v(0,450), cp.v(800,450), 0.0));
 		shape.setElasticity(1.0);
 		shape.setFriction(1.0);
