@@ -28,7 +28,7 @@ function Container(space, startPos) {
         space.addBody(this.body);
 
         this.shape = new cp.BoxShape(this.body, bodySize.width, bodySize.height);
-        this.shape.setFriction(0.6);
+        this.shape.setFriction(1);
 
         space.addShape(this.shape);
         this.bodySprite.setBody(this.body);
