@@ -25,7 +25,7 @@ var Waves = function(attrs) {
 
   self.addToLayer = function(layer) {
     for (var i = 0; i < self.sprites.length; i++)
-      layer.addChild(self.sprites[i], 0);
+      layer.addChild(self.sprites[i], 10);
   }
 
   self.update = function() {

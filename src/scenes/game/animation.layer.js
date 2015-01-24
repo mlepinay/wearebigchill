@@ -25,6 +25,7 @@ var AnimationLayer = cc.Layer.extend({
 
         this.waves.addToLayer(this);
 
+        this.dropContainers();
         this.scheduleUpdate();
         return true;
     },
@@ -49,5 +50,15 @@ var AnimationLayer = cc.Layer.extend({
         for (var i = this.containers.length - 1; i >= 0; i--) {
             this.containers[i].update();
         };
+    },
+
+    dropContainers: function() {
+        var self = this;
+
+        setInterval(function() {
+            container = new Container(self.space, [Math.floor(Math.random()*750),500]);
+            self.addChild(container.sprite, 0);
+            self.containers.push(container);
+        }, 5000)
     }
 });
