@@ -14,6 +14,9 @@
         "src/resource.js",
         "src/app.js",
         "src/actors/whale.js",
-        "src/globals.js"
+        "src/scenes/game/game.scene.js",
+        "src/scenes/game/animation.layer.js",
+        "src/actors/whale.js",
+        "src/global.js"
     ]
 }
