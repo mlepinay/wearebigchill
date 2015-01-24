@@ -1,25 +1,51 @@
 
 
-function Whale() {
+function Whale(space) {
+    // CONSTANTS
+    var SPRITE_RES  = res.docker_whale;
+    var SCALE       = 0.2;
+
     var self = this;
 
-    self.x = 200;
-    self.y = 100;
+    // Initialization
+    self.initialize = function() {
+        var bodySize;
 
-    self.sprite = new cc.Sprite(res.docker_whale);
+        self.sprite = new cc.Sprite(SPRITE_RES);
+        self.sprite.attr({ scale: SCALE });
 
-    self.sprite.attr({
-        x: self.x,
-        y: self.y,
-        scale: 0.2
-    });
+        self.bodySprite = new cc.PhysicsSprite(res.docker_whale);
+
+        bodySize = self.bodySprite.getContentSize();
+        bodySize.width  *= SCALE;
+        bodySize.height *= SCALE;
+
+        self.body = new cp.Body(1, cp.momentForBox(1, bodySize.width, bodySize.height));
+        this.body.p = cc.p(g_runnerStartX, g_groundHeight + bodySize.height);
+
+        space.addBody(this.body);
+
+        this.shape = new cp.BoxShape(this.body, bodySize.width, bodySize.height);
+        this.shape.setFriction(0.6);
+
+        space.addShape(this.shape);
+        this.bodySprite.setBody(this.body);
+
+        this.sprite.x = this.bodySprite.x;
+        this.sprite.y = this.bodySprite.y;
+    }
+
+    self.update = function() {
+        this.sprite.x = this.bodySprite.x;
+        this.sprite.y = this.bodySprite.y;
+    }
 
     self.moveLeft = function() {
-        self.x -= 10;
-        self.sprite.attr({ x: self.x })
+        self.body.applyImpulse(cp.v(-150, 0), cp.v(0, 0));
     }
     self.moveRight = function() {
-        self.x += 10;
-        self.sprite.attr({ x: self.x })
+        self.body.applyImpulse(cp.v(150, 0), cp.v(0, 0));
     }
+
+    self.initialize();
 }
