@@ -20,7 +20,9 @@ function Whale(space) {
         bodySize.width  *= SCALE;
         bodySize.height *= SCALE;
 
-        self.body = new cp.Body(1, cp.momentForBox(1, bodySize.width, bodySize.height));
+        var mass = 0.3*FLUID_DENSITY*bodySize.width*bodySize.height;
+
+        self.body = new cp.Body(mass, cp.momentForBox(mass, bodySize.width, bodySize.height));
         this.body.p = cc.p(g_runnerStartX, g_groundHeight + bodySize.height);
 
         space.addBody(this.body);
@@ -41,10 +43,10 @@ function Whale(space) {
     }
 
     self.moveLeft = function() {
-        self.body.applyImpulse(cp.v(-150, 0), cp.v(0, 0));
+        self.body.applyImpulse(cp.v(-150, -20), cp.v(0, 0));
     }
     self.moveRight = function() {
-        self.body.applyImpulse(cp.v(150, 0), cp.v(0, 0));
+        self.body.applyImpulse(cp.v(150, -20), cp.v(0, 0));
     }
 
     self.initialize();
