@@ -3,7 +3,7 @@
 function Whale(space) {
     // CONSTANTS
     var SPRITE_RES      = res.docker_whale;
-    var MAX_ROT         = Math.PI / 6;
+    var MAX_ROT         = Infinity;
     var MAX_VELOCITY    = 100;
     var ROTATION        = 0.15;
     var ROT_SPEED       = 0.04;
@@ -25,6 +25,8 @@ function Whale(space) {
         bodySize = self.bodySprite.getContentSize();
         bodySize.width  *= SCALE;
         bodySize.height *= SCALE;
+
+        self.size = bodySize.width;
 
         var mass = 0.3*FLUID_DENSITY*bodySize.width*bodySize.height;
 
@@ -65,8 +67,17 @@ function Whale(space) {
     self.moveLeft = function() {
         self.body.applyImpulse(cp.v(-MAX_VELOCITY/2, -5), cp.v(0, 0));
     }
+
     self.moveRight = function() {
         self.body.applyImpulse(cp.v(MAX_VELOCITY/2, -5), cp.v(0, 0));
+    }
+
+    self.tiltLeft = function() {
+        self.body.applyImpulse(cp.v(0, -5), cp.v(-self.size/2.0, 0));
+    }
+
+    self.tiltRight = function() {
+        self.body.applyImpulse(cp.v(0, -5), cp.v(self.size/2.0, 0));
     }
 
     self.initialize();
