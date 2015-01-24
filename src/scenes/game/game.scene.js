@@ -58,7 +58,7 @@ var GameScene = cc.Scene.extend({
 
 			// {
 				// Add the edges of the bucket
-				var bb = new cp.BB(0, 0, 800, 200);
+				var bb = new cp.BB(0, 0, 800, WATER_HEIGHT);
 				var radius = 5.0;
 
 				shape = this.space.addShape( new cp.SegmentShape(staticBody, cp.v(bb.l, bb.b), cp.v(bb.l, bb.t), radius));
