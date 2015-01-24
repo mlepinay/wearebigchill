@@ -13,7 +13,7 @@ var AnimationLayer = cc.Layer.extend({
     },
 
     init: function() {
-        this.containers = [new Container(this.space, [160, 500])];
+        this.containers = [new Container(this.space, [400, 500])];
         this.addChild(this.containers[0].sprite, 0);
 
         this.whale = new Whale(this.space);
@@ -37,28 +37,38 @@ var AnimationLayer = cc.Layer.extend({
             event: cc.EventListener.KEYBOARD,
 
             onKeyPressed: function (keyCode, event) {
-                if (keyCode == 39) layer.whale.moveRight();
-                if (keyCode == 37) layer.whale.moveLeft();
+                if (keyCode == 39) layer.containers[layer.containers.length - 1].moveRight();
+                if (keyCode == 37) layer.containers[layer.containers.length - 1].moveLeft();
+            },
+
+            onKeyReleased: function (keyCode, event) {
+                layer.containers[layer.containers.length - 1].stopMoving();
             }
         });
         cc.eventManager.addListener(listener, this.whale.sprite);
     },
 
     update: function(dt) {
+        var self = this;
+
         this.whale.update();
         this.waves.update();
         for (var i = this.containers.length - 1; i >= 0; i--) {
-            this.containers[i].update();
+            if (this.containers[i].update() == "requireContainer") {
+                container = new Container(self.space, [400,500]);
+                self.addChild(container.sprite, 0);
+                self.containers.push(container);
+            }
         };
     },
 
     dropContainers: function() {
-        var self = this;
+        // self.containers[self.containers.length - 1].stopUserInteraction();
 
-        setInterval(function() {
-            container = new Container(self.space, [Math.floor(Math.random()*750),500]);
-            self.addChild(container.sprite, 0);
-            self.containers.push(container);
-        }, 5000)
+        // setInterval(function() {
+        //     container = new Container(self.space, [Math.floor(Math.random()*750),500]);
+        //     self.addChild(container.sprite, 0);
+        //     self.containers.push(container);
+        // }, 5000)
     }
 });

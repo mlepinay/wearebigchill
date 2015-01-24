@@ -5,8 +5,15 @@ function Container(space, startPos) {
     var SPRITE_RES  = res.container;
     var ROTATION    = 0.01;
     var ROT_SPEED   = 0.04;
+    var MAX_VELOCITY    = 60;
+    var UP_FORCE    = 0.8;
 
     var self = this;
+
+    var isFalling = true;
+
+    var startFall = false;
+    var pastSpeed = 0;
 
     // Initialization
     self.initialize = function() {
@@ -25,7 +32,7 @@ function Container(space, startPos) {
 
         self.size = bodySize.width;
 
-        var mass = 0.3*FLUID_DENSITY*bodySize.width*bodySize.height;
+        var mass = 0.8*FLUID_DENSITY*bodySize.width*bodySize.height;
 
         self.body = new cp.Body(mass, cp.momentForBox(mass, bodySize.width, bodySize.height));
         this.body.p = cc.p(startPos[0], startPos[1]);
@@ -43,8 +50,6 @@ function Container(space, startPos) {
     }
 
     self.update = function() {
-
-
         if (Math.abs(this.bodySprite.y-WATER_HEIGHT) <= self.size) {
             self.angle += ROT_SPEED;
             self.body.applyImpulse(cp.v(Math.cos(self.angle) * (ROTATION), Math.sin(self.angle) * ROTATION), cp.v(0, 0));
@@ -54,9 +59,57 @@ function Container(space, startPos) {
                 this.body.applyImpulse(cp.v(0, -0.01), cp.v(0, 0));
         }
 
+        // if (isFalling) {
+        //     this.body.applyImpulse(cp.v(0, 0.5), cp.v(0, 0));
+        // }
+        // debugger
+        if (isFalling && !startFall && this.body.vy != 0) {
+            startFall = true;
+            this.body.applyImpulse(cp.v(0, UP_FORCE), cp.v(0, 0));
+            pastSpeed = this.body.vy;
+        }
+
+        if (isFalling && startFall) {
+            if (pastSpeed >= this.body.vy + this.body.vy*0.2) {
+                this.body.applyImpulse(cp.v(0, UP_FORCE), cp.v(0, 0));
+                pastSpeed = this.body.vy;
+                if (this.body.vx >= MAX_VELOCITY || this.body.vx <= -MAX_VELOCITY) {
+                    if (this.body.vx > 0)
+                        this.body.vx = MAX_VELOCITY;
+                    else
+                        this.body.vx = -MAX_VELOCITY;
+                }
+            } else {
+                // COLLISION
+                this.stopUserInteraction();
+                return ("requireContainer");
+            }
+        }
+
         this.sprite.x = this.bodySprite.x;
         this.sprite.y = this.bodySprite.y;
         this.sprite.rotation = this.bodySprite.rotation;
+        return (false);
+    }
+
+    self.moveLeft = function() {
+        if (isFalling && startFall) {
+            self.body.applyImpulse(cp.v(-MAX_VELOCITY/2, 0), cp.v(0, 0));            
+        }
+    }
+    self.moveRight = function() {
+        if (isFalling && startFall) {
+            self.body.applyImpulse(cp.v(MAX_VELOCITY/2, 0), cp.v(0, 0));            
+        }
+    }
+    self.stopMoving = function () {
+        self.body.vx = 0;
+    }
+
+    self.stopUserInteraction = function() {
+        self.body.applyImpulse(cp.v(0, -UP_FORCE), cp.v(0, 0));
+        self.body.vy = 0;
+        isFalling = false;
     }
 
     self.initialize();

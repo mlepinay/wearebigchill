@@ -37,6 +37,7 @@ function Whale(space) {
 
         this.shape = new cp.BoxShape(this.body, bodySize.width, bodySize.height);
         this.shape.setFriction(1);
+        // this.shape.setCollisionType(1337);
 
         space.addShape(this.shape);
         this.bodySprite.setBody(this.body);
