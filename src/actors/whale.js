@@ -6,8 +6,12 @@ function Whale(space) {
     var SCALE           = 0.2;
     var MAX_ROT         = Math.PI / 6;
     var MAX_VELOCITY    = 100;
+    var ROTATION        = 0.15;
+    var ROT_SPEED       = 0.04;
 
     var self = this;
+
+    self.angle = 0;
 
     // Initialization
     self.initialize = function() {
@@ -50,6 +54,9 @@ function Whale(space) {
                 this.body.w = -MAX_ROT;
             }
         }
+
+        self.angle += ROT_SPEED;
+        self.body.applyImpulse(cp.v(Math.cos(self.angle) * (ROTATION), Math.sin(self.angle) * ROTATION), cp.v(0, 0));
 
         this.sprite.x = this.bodySprite.x + 15;
         this.sprite.y = this.bodySprite.y + 20;
