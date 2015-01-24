@@ -1,7 +1,8 @@
 var Waves = function(attrs) {
   var SPRITE_RES = res.waves;
   var SCALE = 0.2;
-  var SPEED = 0.05;
+  var SPEED = 0.2;
+  var ROT_SPEED = 0.05;
   var ROTATION = 5;
 
   var self = this;
@@ -14,6 +15,7 @@ var Waves = function(attrs) {
   self.sprites = [sprite];
 
   var width = sprite.width * SCALE;
+  var angle = 0;
   var moved = 0;
 
   for (var i = 1; i < 20; i++) {
@@ -29,15 +31,23 @@ var Waves = function(attrs) {
   }
 
   self.update = function() {
-    var i = 0;
-    var stepX = Math.cos(moved) * ROTATION
-    var stepY = Math.sin(moved) * ROTATION
+    var i = 0, move = 0;
+    var stepX = Math.cos(angle) * ROTATION
+    var stepY = Math.sin(angle) * ROTATION
 
-    moved += SPEED;
+    angle += ROT_SPEED;
+
+    if (moved >= width) {
+      move = -moved;
+      moved = 0;
+    } else {
+      moved += SPEED;
+      move = moved;
+    }
 
     for (i = 0; i < self.sprites.length; i++) {
       sprite = self.sprites[i]
-      sprite.x = sprite.pos.x + stepX;
+      sprite.x = sprite.pos.x + stepX - moved;
       sprite.y = sprite.pos.y + stepY;
     }
   }
