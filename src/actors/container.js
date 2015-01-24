@@ -15,6 +15,8 @@ function Container(space, startPos) {
     var startFall = false;
     var pastSpeed = 0;
 
+    self.removed = false;
+
     // Initialization
     self.initialize = function() {
         var bodySize;
@@ -41,6 +43,7 @@ function Container(space, startPos) {
 
         this.shape = new cp.BoxShape(this.body, bodySize.width, bodySize.height);
         this.shape.setFriction(1);
+        this.shape.setCollisionType(42);
 
         space.addShape(this.shape);
         this.bodySprite.setBody(this.body);
@@ -50,6 +53,9 @@ function Container(space, startPos) {
     }
 
     self.update = function() {
+        if (self.removed)
+            return null
+
         if (WATER_HEIGHT >= (this.bodySprite.y - self.size)) {
             // self.angle += ROT_SPEED;
             // self.body.applyImpulse(cp.v(Math.cos(self.angle) * (ROTATION), Math.sin(self.angle) * ROTATION), cp.v(0, 0));
@@ -63,7 +69,6 @@ function Container(space, startPos) {
         // if (isFalling) {
         //     this.body.applyImpulse(cp.v(0, 0.5), cp.v(0, 0));
         // }
-        // debugger
         if (isFalling && !startFall && this.body.vy != 0) {
             startFall = true;
             this.body.applyImpulse(cp.v(0, UP_FORCE), cp.v(0, 0));
@@ -82,6 +87,7 @@ function Container(space, startPos) {
                 }
             } else {
                 // COLLISION
+                self.containerState = "Whale";
                 this.stopUserInteraction();
                 return ("requireContainer");
             }
@@ -90,6 +96,11 @@ function Container(space, startPos) {
         this.sprite.x = this.bodySprite.x;
         this.sprite.y = this.bodySprite.y;
         this.sprite.rotation = this.bodySprite.rotation;
+
+        if (this.sprite.y < 0) {
+            self.vanishFromWorld()
+        }
+
         return (false);
     }
 
@@ -112,6 +123,41 @@ function Container(space, startPos) {
         self.body.vy = 0;
         isFalling = false;
     }
+
+    self.handleWaterTouch = function() {
+        self.containerState = "Water";
+    }
+
+    self.comboAction = function() {
+        self.startBlinking();
+    }
+
+    self.startBlinking = function() {
+        var i = 0
+
+        var blinkFunc = setInterval(function() {
+            self.sprite.setOpacity(100);
+            setTimeout(function() {
+                self.sprite.setOpacity(255);
+            }, 250);
+            i++;
+            if (i >= 5) {
+                self.vanishFromWorld();
+                clearInterval(blinkFunc);
+            }
+        }, 500);
+    }
+
+    self.vanishFromWorld = function() {
+        self.removed = true;
+        self.sprite.visible = false;
+        space.removeShape(self.shape);
+        space.removeBody(self.body);        
+    }
+
+    self.typeOfActor = "Container";
+
+    self.containerState = "Air";
 
     self.initialize();
 }

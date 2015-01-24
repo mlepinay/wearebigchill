@@ -70,5 +70,7 @@ function Whale(space) {
         self.body.applyImpulse(cp.v(MAX_VELOCITY/2, -5), cp.v(0, 0));
     }
 
+    self.typeOfActor = "Whale";
+
     self.initialize();
 }

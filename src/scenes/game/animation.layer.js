@@ -2,6 +2,7 @@ var AnimationLayer = cc.Layer.extend({
     sprite:null,
     whale: null,
     waves: null,
+    combo: 0,
 
     ctor:function (space) {
         //////////////////////////////
@@ -13,6 +14,10 @@ var AnimationLayer = cc.Layer.extend({
     },
 
     init: function() {
+        var self = this;
+
+        var handledIds = {};
+
         this.containers = [new Container(this.space, [400, 500])];
         this.addChild(this.containers[0].sprite, 0);
 
@@ -25,7 +30,23 @@ var AnimationLayer = cc.Layer.extend({
 
         this.waves.addToLayer(this);
 
-        this.dropContainers();
+        this.space.addCollisionHandler( 1, 42, null, function(arb, space, ptr) {
+                var containerShape = arb.getShapes()[1];
+                var id = containerShape.hashid;
+
+                if (!handledIds[id]) {
+                    var container = self.getContainerFromId(id);
+
+                    if (container) {
+                        self.combo = 0;
+                        container.handleWaterTouch();
+                        handledIds[id] = true;
+                    }                    
+                }
+
+                g_waterPreSolve(arb, space, ptr);
+        }, null, null);
+
         this.scheduleUpdate();
         return true;
     },
@@ -55,20 +76,47 @@ var AnimationLayer = cc.Layer.extend({
         this.waves.update();
         for (var i = this.containers.length - 1; i >= 0; i--) {
             if (this.containers[i].update() == "requireContainer") {
+                self.combo += 1;
                 container = new Container(self.space, [400,500]);
                 self.addChild(container.sprite, 0);
                 self.containers.push(container);
             }
         };
+        if (self.combo >= MAX_COMBO) {
+            self.combo = 0;
+            self.comboAction();
+        }
+
+        self.freeRemovedContainers();
     },
 
-    dropContainers: function() {
-        // self.containers[self.containers.length - 1].stopUserInteraction();
+    comboAction: function() {
+        for (var i = 0; i < this.containers.length; i++) {
+            if (this.containers[i].containerState === "Whale") {
+                this.containers[i].comboAction();
+            }
+        }
+    },
 
-        // setInterval(function() {
-        //     container = new Container(self.space, [Math.floor(Math.random()*750),500]);
-        //     self.addChild(container.sprite, 0);
-        //     self.containers.push(container);
-        // }, 5000)
+    freeRemovedContainers: function() {
+        var newContainersList = [];
+
+        for (var i = 0; i < this.containers.length; i++) {
+            if (!this.containers[i].removed) {
+                newContainersList.push(this.containers[i]);
+            }
+        }
+
+        this.containers = [];
+        this.containers = newContainersList;
+    },
+
+    getContainerFromId: function(id) {
+        for (var i = this.containers.length - 1; i >= 0; i--) {
+            if (this.containers[i].shape.hashid == id) {
+                return this.containers[i];
+            }
+        }
+        return null;
     }
 });
