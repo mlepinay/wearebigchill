@@ -3,6 +3,7 @@ var res = {
     CloseNormal_png : "res/CloseNormal.png",
     CloseSelected_png : "res/CloseSelected.png",
     docker_whale : "res/docker_whale.png",
+    docker_whale_body : "res/docker_whale_body.png",
     container : "res/container.png"
 };
 
