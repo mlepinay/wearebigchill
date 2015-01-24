@@ -48,7 +48,9 @@ var AnimationLayer = cc.Layer.extend({
         var self = this;
 
         setInterval(function() {
-            self.containers.push(new Container(self.space, [Math.floor(Math.random()*750),500]));            
+            container = new Container(self.space, [Math.floor(Math.random()*750),500]);
+            self.addChild(container.sprite, 0);
+            self.containers.push(container);            
         }, 5000)
     }
 });
