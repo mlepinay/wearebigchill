@@ -61,20 +61,20 @@ var GameScene = cc.Scene.extend({
 				var bb = new cp.BB(0, 0, 800, WATER_HEIGHT);
 				var radius = 5.0;
 
-				shape = this.space.addShape( new cp.SegmentShape(staticBody, cp.v(bb.l, bb.b), cp.v(bb.l, bb.t), radius));
-				shape.setElasticity(1.0);
-				shape.setFriction(1.0);
-				shape.setLayers(NOT_GRABABLE_MASK);
+				// shape = this.space.addShape( new cp.SegmentShape(staticBody, cp.v(bb.l, bb.b), cp.v(bb.l, bb.t), radius));
+				// shape.setElasticity(1.0);
+				// shape.setFriction(1.0);
+				// shape.setLayers(NOT_GRABABLE_MASK);
 
-				shape = this.space.addShape( new cp.SegmentShape(staticBody, cp.v(bb.r, bb.b), cp.v(bb.r, bb.t), radius));
-				shape.setElasticity(1.0);
-				shape.setFriction(1.0);
-				shape.setLayers(NOT_GRABABLE_MASK);
+				// shape = this.space.addShape( new cp.SegmentShape(staticBody, cp.v(bb.r, bb.b), cp.v(bb.r, bb.t), radius));
+				// shape.setElasticity(1.0);
+				// shape.setFriction(1.0);
+				// shape.setLayers(NOT_GRABABLE_MASK);
 
-				shape = this.space.addShape( new cp.SegmentShape(staticBody, cp.v(bb.l, bb.b), cp.v(bb.r, bb.b), radius));
-				shape.setElasticity(1.0);
-				shape.setFriction(1.0);
-				shape.setLayers(NOT_GRABABLE_MASK);
+				// shape = this.space.addShape( new cp.SegmentShape(staticBody, cp.v(bb.l, bb.b), cp.v(bb.r, bb.b), radius));
+				// shape.setElasticity(1.0);
+				// shape.setFriction(1.0);
+				// shape.setLayers(NOT_GRABABLE_MASK);
 
 				// Add the sensor for the water.
 				shape = this.space.addShape( new cp.BoxShape2(staticBody, bb) );

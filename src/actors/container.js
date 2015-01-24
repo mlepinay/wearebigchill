@@ -50,9 +50,10 @@ function Container(space, startPos) {
     }
 
     self.update = function() {
-        if (Math.abs(this.bodySprite.y-WATER_HEIGHT) <= self.size) {
-            self.angle += ROT_SPEED;
-            self.body.applyImpulse(cp.v(Math.cos(self.angle) * (ROTATION), Math.sin(self.angle) * ROTATION), cp.v(0, 0));
+        if (WATER_HEIGHT >= (this.bodySprite.y - self.size)) {
+            // self.angle += ROT_SPEED;
+            // self.body.applyImpulse(cp.v(Math.cos(self.angle) * (ROTATION), Math.sin(self.angle) * ROTATION), cp.v(0, 0));
+            self.body.setMass(self.body.m + 0.0001)
         } else {
             // Keep awake
             if (Math.random() < 0.2)
@@ -94,12 +95,12 @@ function Container(space, startPos) {
 
     self.moveLeft = function() {
         if (isFalling && startFall) {
-            self.body.applyImpulse(cp.v(-MAX_VELOCITY/2, 0), cp.v(0, 0));            
+            self.body.applyImpulse(cp.v(-MAX_VELOCITY/2, 0), cp.v(0, 0));
         }
     }
     self.moveRight = function() {
         if (isFalling && startFall) {
-            self.body.applyImpulse(cp.v(MAX_VELOCITY/2, 0), cp.v(0, 0));            
+            self.body.applyImpulse(cp.v(MAX_VELOCITY/2, 0), cp.v(0, 0));
         }
     }
     self.stopMoving = function () {
