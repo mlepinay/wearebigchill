@@ -25,9 +25,17 @@ var Waves = function(attrs) {
     self.sprites.push(sprite);
   }
 
+  this.deep_sea_sprite = cc.Sprite.create();
+  this.deep_sea_sprite.color = cc.color(57,77,84,1);
+  this.deep_sea_sprite.setTextureRect(cc.rect(0, 0, 800, sprite.y + 20));
+  this.deep_sea_sprite.setOpacity(180);
+
+  var height = sprite.y / 2;
+
   self.addToLayer = function(layer) {
     for (var i = 0; i < self.sprites.length; i++)
       layer.addChild(self.sprites[i], 10);
+    layer.addChild(this.deep_sea_sprite, 10);
   }
 
   self.update = function() {
@@ -50,6 +58,9 @@ var Waves = function(attrs) {
       sprite.x = sprite.pos.x + stepX - moved;
       sprite.y = sprite.pos.y + stepY;
     }
+
+    self.deep_sea_sprite.x = 400;
+    self.deep_sea_sprite.y = sprite.y - height - 15;
   }
 
 }
