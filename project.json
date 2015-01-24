@@ -8,11 +8,12 @@
     "renderMode" : 0,
     "engineDir":"frameworks/cocos2d-html5",
 
-    "modules" : ["cocos2d"],
+    "modules" : ["cocos2d","chipmunk"],
 
     "jsList" : [
         "src/resource.js",
         "src/app.js",
-        "src/actors/whale.js"
+        "src/actors/whale.js",
+        "src/globals.js"
     ]
 }
