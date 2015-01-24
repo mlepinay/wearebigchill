@@ -17,7 +17,7 @@ var AnimationLayer = cc.Layer.extend({
         this.addChild(this.containers[0].sprite, 0);
 
         this.whale = new Whale(this.space);
-        this.addChild(this.whale.sprite, 0);
+        this.addChild(this.whale.sprite, 1);
 
         this.waves = new Waves({
             x: 0, y: 205, width: 8000
