@@ -1,6 +1,8 @@
 var AnimationLayer = cc.Layer.extend({
     sprite:null,
     whale: null,
+    waves: null,
+
     ctor:function (space) {
         //////////////////////////////
         // 1. super init first
@@ -17,8 +19,13 @@ var AnimationLayer = cc.Layer.extend({
         this.whale = new Whale(this.space);
         this.addChild(this.whale.sprite, 0);
 
-        this.dropContainers();
+        this.waves = new Waves({
+            x: 0, y: 205, width: 8000
+        });
 
+        this.waves.addToLayer(this);
+
+        this.dropContainers();
         this.scheduleUpdate();
         return true;
     },
@@ -39,6 +46,7 @@ var AnimationLayer = cc.Layer.extend({
 
     update: function(dt) {
         this.whale.update();
+        this.waves.update();
         for (var i = this.containers.length - 1; i >= 0; i--) {
             this.containers[i].update();
         };
@@ -50,7 +58,7 @@ var AnimationLayer = cc.Layer.extend({
         setInterval(function() {
             container = new Container(self.space, [Math.floor(Math.random()*750),500]);
             self.addChild(container.sprite, 0);
-            self.containers.push(container);            
+            self.containers.push(container);
         }, 5000)
     }
 });
