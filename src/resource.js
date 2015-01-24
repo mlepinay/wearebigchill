@@ -5,6 +5,7 @@ var res = {
     docker_whale : "res/docker_whale.png",
     docker_whale_body : "res/docker_whale_body.png",
     waves : "res/waves.png",
+    background : "res/bg.png",
     container : "res/container.png"
 };
 
