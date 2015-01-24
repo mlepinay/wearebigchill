@@ -4,6 +4,7 @@ function Whale(space) {
     // CONSTANTS
     var SPRITE_RES  = res.docker_whale;
     var SCALE       = 0.2;
+    var MAX_ROT     = Math.PI / 6;
 
     var self = this;
 
@@ -24,6 +25,7 @@ function Whale(space) {
 
         self.body = new cp.Body(mass, cp.momentForBox(mass, bodySize.width, bodySize.height));
         this.body.p = cc.p(g_runnerStartX, g_groundHeight + bodySize.height);
+        this.body.w_limit = MAX_ROT;
 
         space.addBody(this.body);
 
@@ -38,6 +40,14 @@ function Whale(space) {
     }
 
     self.update = function() {
+        if (this.body.w > MAX_ROT || this.body.w < -MAX_ROT) {
+            if (this.body.w < 0) {
+                this.body.w = MAX_ROT;
+            } else {
+                this.body.w = -MAX_ROT;
+            }
+        }
+
         this.sprite.x = this.bodySprite.x + 15;
         this.sprite.y = this.bodySprite.y + 20;
         this.sprite.rotation = this.bodySprite.rotation;
