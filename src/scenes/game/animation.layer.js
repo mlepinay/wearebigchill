@@ -17,6 +17,8 @@ var AnimationLayer = cc.Layer.extend({
         this.whale = new Whale(this.space);
         this.addChild(this.whale.sprite, 0);
 
+        this.dropContainers();
+
         this.scheduleUpdate();
         return true;
     },
@@ -40,5 +42,13 @@ var AnimationLayer = cc.Layer.extend({
         for (var i = this.containers.length - 1; i >= 0; i--) {
             this.containers[i].update();
         };
+    },
+
+    dropContainers: function() {
+        var self = this;
+
+        setInterval(function() {
+            self.containers.push(new Container(self.space, [Math.floor(Math.random()*750),500]));            
+        }, 5000)
     }
 });
