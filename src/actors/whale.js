@@ -27,7 +27,7 @@ function Whale(space) {
 
         space.addBody(this.body);
 
-        this.shape = new cp.BoxShape(this.body, bodySize.width, bodySize.height);
+        this.shape = new cp.Shape(this.body, bodySize.width, bodySize.height);
         this.shape.setFriction(0.6);
 
         space.addShape(this.shape);
