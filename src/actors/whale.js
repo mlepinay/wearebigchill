@@ -18,6 +18,7 @@ function Whale(space) {
 
         self.bodySprite = new cc.PhysicsSprite(res.docker_whale_body);
 
+
         bodySize = self.bodySprite.getContentSize();
         bodySize.width  *= SCALE;
         bodySize.height *= SCALE;

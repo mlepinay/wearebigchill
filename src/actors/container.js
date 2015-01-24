@@ -38,6 +38,8 @@ function Container(space, startPos) {
     }
 
     self.update = function() {
+        if (Math.random() < 0.2)
+            this.body.applyImpulse(cp.v(0, -0.01), cp.v(0, 0));
         this.sprite.x = this.bodySprite.x;
         this.sprite.y = this.bodySprite.y;
         this.sprite.rotation = this.bodySprite.rotation;
