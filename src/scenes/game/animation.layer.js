@@ -45,7 +45,7 @@ var AnimationLayer = cc.Layer.extend({
                         self.combo = 0;
                         container.handleWaterTouch();
                         handledIdsPlus[id] = true;
-                    }                    
+                    }
                 }
 
                 g_waterPreSolve(arb, space, ptr);
@@ -96,8 +96,8 @@ var AnimationLayer = cc.Layer.extend({
                     if (self.minusPoint >= MAX_LOST_CONTAINERS) {
                         self.menu = true;
                         self.addChild(new GameOverLayer(), 15);
-                    }                 
-                    self.handleIdsMinus[id] = true;  
+                    }
+                    self.handleIdsMinus[id] = true;
                 }
             }
         };
