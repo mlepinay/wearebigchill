@@ -152,7 +152,7 @@ function Container(space, startPos, type, multiplayer) {
         if (self.anormalDeath) {
             self.anormalDeath = false;
             self.stopUserInteraction();
-            return ("requireContainer");            
+            return ("requireContainer");
         }
 
         if (self.containerState == "Water" && this.sprite.y < WATER_HEIGHT - self.bodySize.height / 2)
@@ -176,8 +176,10 @@ function Container(space, startPos, type, multiplayer) {
     }
 
     self.stopUserInteraction = function() {
-        self.body.applyImpulse(cp.v(0, -UP_FORCE), cp.v(0, 0));
-        self.body.vy = 0;
+        // self.body.applyImpulse(cp.v(0, -UP_FORCE), cp.v(0, 0));
+        // console.log("")
+        self.body.vx = 0;
+        console.log("User interaction stopped")
         isFalling = false;
     }
 
