@@ -1,6 +1,7 @@
 var StatusLayer = cc.Layer.extend({
     labelScore:null,
     labelCombo:null,
+    labelLIves:null,
     score:0,
     combo:0,
     lives:5,
@@ -20,9 +21,10 @@ var StatusLayer = cc.Layer.extend({
         this.labelScore.setPosition(cc.p(70, winsize.height - 20));
         this.addChild(this.labelScore);
 
-        this.labelCombo = new cc.LabelTTF("Combo: "+this.combo, "Helvetica", 20);
+        this.labelCombo = new cc.LabelTTF("Combo: "+this.combo+"/"+MAX_COMBO, "Helvetica", 20);
         this.labelCombo.setPosition(cc.p(winsize.width - 70, winsize.height - 20));
         this.addChild(this.labelCombo);
+
     },
 
     updateScore:function (num) {

@@ -44,7 +44,6 @@ var AnimationLayer = cc.Layer.extend({
                     var container = self.getContainerFromId(id);
 
                     if (container) {
-                        self.combo = 0;
                         container.handleWaterTouch();
                         handledIdsPlus[id] = true;
                     }
@@ -95,7 +94,9 @@ var AnimationLayer = cc.Layer.extend({
                 var id = self.containers[i].shape.hashid;
                 if (!self.handleIdsMinus[id]) {
                     self.minusPoint += 1;
-                    if (self.minusPoint > MAX_LOST_CONTAINERS) {
+                    self.combo = 0;
+                    self.statusLayer.updateLives(MAX_LOST_CONTAINERS - self.minusPoint);
+                    if (self.minusPoint > MAX_LOST_CONTAINERS - 1) {
                         self.menu = true;
                         self.addChild(new GameOverLayer(), 15);
                     }

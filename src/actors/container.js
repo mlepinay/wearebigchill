@@ -47,6 +47,8 @@ function Container(space, startPos, type) {
 
     self.removed = false;
 
+    self.anormalDeath = false;
+
     // Initialization
     self.initialize = function() {
         self.sprite = new cc.Sprite(SPRITE_RES);
@@ -137,6 +139,12 @@ function Container(space, startPos, type) {
             self.vanishFromWorld()
         }
 
+        if (self.anormalDeath) {
+            self.anormalDeath = false;
+            self.stopUserInteraction();
+            return ("requireContainer");            
+        }
+
         if (self.containerState == "Water" && this.sprite.y < WATER_HEIGHT - self.bodySize.height / 2)
             return "lostContainer";
 
@@ -164,6 +172,8 @@ function Container(space, startPos, type) {
     }
 
     self.handleWaterTouch = function() {
+        if (self.containerState == "Air")
+            self.anormalDeath = true;
         self.containerState = "Water";
     }
 
