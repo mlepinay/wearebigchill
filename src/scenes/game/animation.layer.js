@@ -87,7 +87,7 @@ var AnimationLayer = cc.Layer.extend({
 
             if (updateStatus == "requireContainer") {
                 self.combo += 1;
-                container = new Container(self.space, [400,500]);
+                container = new Container(self.space, [400,500], this.statusLayer.selectedContainer);
                 self.addChild(container.sprite, 0);
                 self.containers.push(container);
             } else if (updateStatus == "lostContainer") {

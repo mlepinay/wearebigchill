@@ -1,18 +1,23 @@
 /* Configuration for different types of containers */
 var ContainerType = {
-    server: {},
+    server: {
+        sprite: res.container
+    },
     database: {
+        sprite: res.container,
         color: cc.color(150,150,255,255),
         weight: 2,
         max_velocity_y: 50
     },
     cache: {
+        sprite: res.container,
         color: cc.color(255,0,0,0),
         weight: 1,
         max_velocity_x: 150
     },
     datawarehouse: {
-        scale: 0.4
+        sprite: res.container
+        // scale: 0.4
     }
 }
 
@@ -24,7 +29,7 @@ function Container(space, startPos, type) {
         type = availableTypes[Math.floor(Math.random()*availableTypes.length)]
     }
     var stubType = ContainerType[type]
-    console.log(type)
+
     // CONSTANTS
     var SPRITE_RES      = stubType.sprite           || res.container;
     var ROTATION        = stubType.rotation         || 0.01;
@@ -35,8 +40,6 @@ function Container(space, startPos, type) {
     var WEIGHT          = stubType.weight           || 1;
     var CONT_SCALE      = stubType.scale            || SCALE;
     var UP_FORCE        = 0.8;
-
-    console.log(COLOUR)
 
     var self = this;
 
