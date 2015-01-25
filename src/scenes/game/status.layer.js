@@ -37,6 +37,23 @@ var StatusLayer = cc.Layer.extend({
 
         this.drawContainerMenu();
 
+        var yLives = 30;
+        var xLives = winsize.width - 200;
+
+        this.livesSprites = []
+        for (var i = 0; i < this.lives; i++) {
+            var sprite = new cc.Sprite(res.docker_whale);
+            
+            sprite.attr({ 
+                scale: 0.05,
+                x: xLives + i * 42,
+                y: yLives});
+
+            this.addChild(sprite, 1);
+
+            this.livesSprites.push(sprite);
+        }
+
         this.labelScore = new cc.LabelTTF("Score: "+this.score, "Helvetica", 20);
         this.labelScore.setColor(cc.color(0,0,0));//black color
         this.labelScore.setPosition(cc.p(70, winsize.height - 20));
@@ -87,11 +104,14 @@ var StatusLayer = cc.Layer.extend({
 
     updateCombo:function (num) {
         this.combo = num;
-        this.labelCombo.setString("Combo: "+this.combo);
+        this.labelCombo.setString("Combo: "+this.combo+"/"+MAX_COMBO);
     },
 
     updateLives:function (num) {
         this.lives = num;
+        for (var i = 0; i < MAX_LOST_CONTAINERS - this.lives; i++) {
+            this.livesSprites[i].visible = false;
+        };
     }
 
 });
