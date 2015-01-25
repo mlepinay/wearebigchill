@@ -22,6 +22,8 @@
         "src/scenes/game/animation.layer.js",
         "src/scenes/game/status.layer.js",
         "src/scenes/game/gameover.layer.js",
+        "src/scenes/multiplayer/multiplayer.scene.js",
+        "src/scenes/multiplayer/animationmultiple.layer.js",
         "src/global.js"
     ]
 }

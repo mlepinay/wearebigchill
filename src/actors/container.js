@@ -22,12 +22,13 @@ var ContainerType = {
 }
 
 
-function Container(space, startPos, type) {
+function Container(space, startPos, type, multiplayer) {
     if (typeof type === "undefined" || !type || !ContainerType[type]) {
         var availableTypes = [];
         for (var t in ContainerType) availableTypes.push(t);
         type = availableTypes[Math.floor(Math.random()*availableTypes.length)]
     }
+    multiplayer = (typeof multiplayer === "undefined") ? 0 : multiplayer;
     var stubType = ContainerType[type]
 
     // CONSTANTS
@@ -70,7 +71,13 @@ function Container(space, startPos, type) {
         var mass = 0.8*FLUID_DENSITY*self.bodySize.width*self.bodySize.height*WEIGHT;
 
         self.body = new cp.Body(mass, cp.momentForBox(mass, self.bodySize.width, self.bodySize.height));
-        this.body.p = cc.p(startPos[0], startPos[1]);
+        if (multiplayer == 1) {
+            this.body.p = cc.p(200, startPos[1]);
+        } else if (multiplayer == 2) {
+            this.body.p = cc.p(600, startPos[1]);
+        } else {
+            this.body.p = cc.p(startPos[0], startPos[1]);
+        }
 
         space.addBody(this.body);
 

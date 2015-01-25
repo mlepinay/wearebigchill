@@ -1,6 +1,6 @@
 
 
-function Whale(space) {
+function Whale(space, multiplayer) {
     // CONSTANTS
     var SPRITE_RES      = res.docker_whale;
     var MAX_ROT         = Math.PI / 6;
@@ -14,6 +14,7 @@ function Whale(space) {
 
     // Initialization
     self.initialize = function() {
+        multiplayer = (typeof multiplayer === "undefined") ? 0 : multiplayer;
         var bodySize;
 
         self.sprite = new cc.Sprite(SPRITE_RES);
@@ -28,7 +29,13 @@ function Whale(space) {
         var mass = 0.3*FLUID_DENSITY*bodySize.width*bodySize.height;
 
         self.body = new cp.Body(mass, cp.momentForBox(mass, bodySize.width, bodySize.height));
-        this.body.p = cc.p(400, WATER_HEIGHT + 10);
+        if (multiplayer == 1) {
+            this.body.p = cc.p(200, WATER_HEIGHT + 10);            
+        } else if (multiplayer == 2) {
+            this.body.p = cc.p(600, WATER_HEIGHT + 10);
+        } else {
+            this.body.p = cc.p(400, WATER_HEIGHT + 10);
+        }
         this.body.w_limit = MAX_ROT;
         this.body.v_limit = MAX_VELOCITY;
 
