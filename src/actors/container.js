@@ -208,10 +208,12 @@ function Container(space, startPos, type, multiplayer) {
     }
 
     self.vanishFromWorld = function() {
-        self.removed = true;
-        self.sprite.visible = false;
-        space.removeShape(self.shape);
-        space.removeBody(self.body);
+        if (!self.removed) {
+            self.removed = true;
+            self.sprite.visible = false;
+            space.removeShape(self.shape);
+            space.removeBody(self.body);            
+        }
     }
 
     self.typeOfActor = "Container";

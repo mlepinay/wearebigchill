@@ -26,10 +26,10 @@ var AnimationMultipleLayer = cc.Layer.extend({
 
         this.containers = [];
 
-        this.containers[0] = [new Container(this.space, [200, 500], this.statusLayer.selectedContainer, 1)];
+        this.containers[0] = [new Container(this.space, [200, 500], "server", 1)];
         this.addChild(this.containers[0][0].sprite, 0);
 
-        this.containers[1] = [new Container(this.space, [600, 500], this.statusLayer.selectedContainer, 2)];
+        this.containers[1] = [new Container(this.space, [600, 500], "server", 2)];
         this.addChild(this.containers[1][0].sprite, 0);
 
         this.whale = [];
@@ -102,8 +102,11 @@ var AnimationMultipleLayer = cc.Layer.extend({
 
         this.updateContainersLogic();
 
-        self.statusLayer.updateCombo(self.combo[0]);
-        self.statusLayer.updateScore(self.score[0]);
+        self.statusLayer.updateCombo(self.combo[1]);
+        self.statusLayer.updateScore(self.score[1]);
+
+        self.statusLayer.updateComboP2(self.combo[0]);
+        self.statusLayer.updateScoreP2(self.score[0]);
 
         self.freeRemovedContainers();
     },
@@ -116,7 +119,7 @@ var AnimationMultipleLayer = cc.Layer.extend({
 
             if (updateStatus == "requireContainer") {
                 self.combo[0] += 1;
-                container = new Container(self.space, [400,500], this.statusLayer.selectedContainer, 1);
+                container = new Container(self.space, [400,500], "server", 1);
                 self.addChild(container.sprite, 0);
                 self.containers[0].push(container);
             } else if (updateStatus == "lostContainer") {
@@ -124,7 +127,7 @@ var AnimationMultipleLayer = cc.Layer.extend({
                 if (!self.handleIdsMinus[id]) {
                     self.minusPoint[0] += 1;
                     self.combo[0] = 0;
-                    self.statusLayer.updateLives(MAX_LOST_CONTAINERS - self.minusPoint[0]);
+                    self.statusLayer.updateLivesP2(MAX_LOST_CONTAINERS - self.minusPoint[0]);
                     if (self.minusPoint[0] > MAX_LOST_CONTAINERS - 1) {
                         self.menu = true;
                         self.addChild(new GameOverLayer(), 20);
@@ -144,7 +147,7 @@ var AnimationMultipleLayer = cc.Layer.extend({
 
             if (updateStatus == "requireContainer") {
                 self.combo[1] += 1;
-                container = new Container(self.space, [600,500], this.statusLayer.selectedContainer, 2);
+                container = new Container(self.space, [600,500], "server", 2);
                 self.addChild(container.sprite, 0);
                 self.containers[1].push(container);
             } else if (updateStatus == "lostContainer") {
@@ -152,7 +155,7 @@ var AnimationMultipleLayer = cc.Layer.extend({
                 if (!self.handleIdsMinus[id]) {
                     self.minusPoint[1] += 1;
                     self.combo[1] = 0;
-                    self.statusLayer.updateLivesP2(MAX_LOST_CONTAINERS - self.minusPoint[1]);
+                    self.statusLayer.updateLives(MAX_LOST_CONTAINERS - self.minusPoint[1]);
                     if (self.minusPoint[1] > MAX_LOST_CONTAINERS - 1) {
                         self.menu = true;
                         self.addChild(new GameOverLayer(), 20);
