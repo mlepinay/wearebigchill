@@ -7,9 +7,10 @@ var StatusLayer = cc.Layer.extend({
     lives:5,
     selected: 0,
 
-    ctor:function () {
+    ctor:function (multiplayer) {
         this._super();
         this.init();
+        this.multiplayer = multiplayer;
     },
 
     init:function () {
@@ -52,6 +53,24 @@ var StatusLayer = cc.Layer.extend({
             this.addChild(sprite, 1);
 
             this.livesSprites.push(sprite);
+        }
+
+        if (this.multiplayer) {
+            xLives = (winsize.width / 2) - 200;
+
+            this.livesSpritesP2 = []
+            for (var i = 0; i < this.lives; i++) {
+                var sprite = new cc.Sprite(res.docker_whale);
+                
+                sprite.attr({ 
+                    scale: 0.05,
+                    x: xLives + i * 42,
+                    y: yLives});
+
+                this.addChild(sprite, 1);
+
+                this.livesSpritesP2.push(sprite);
+            }            
         }
 
         this.labelScore = new cc.LabelTTF("Score: "+this.score, "Helvetica", 20);
@@ -102,8 +121,18 @@ var StatusLayer = cc.Layer.extend({
         this.labelScore.setString("Score: "+this.score);
     },
 
+    updateScoreP2:function (num) {
+        this.scoreP2 = num;
+        this.labelScore.setString("Score: "+this.score);
+    },
+
     updateCombo:function (num) {
         this.combo = num;
+        this.labelCombo.setString("Combo: "+this.combo+"/"+MAX_COMBO);
+    },
+
+    updateComboP2:function (num) {
+        this.comboP2 = num;
         this.labelCombo.setString("Combo: "+this.combo+"/"+MAX_COMBO);
     },
 
@@ -112,6 +141,14 @@ var StatusLayer = cc.Layer.extend({
         for (var i = 0; i < MAX_LOST_CONTAINERS - this.lives; i++) {
             this.livesSprites[i].visible = false;
         };
+    },
+
+    updateLivesP2:function (num) {
+        this.livesP2 = num;
+        for (var i = 0; i < MAX_LOST_CONTAINERS - this.lives; i++) {
+            this.livesSprites[i].visible = false;
+        };
     }
+
 
 });
