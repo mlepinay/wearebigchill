@@ -105,21 +105,40 @@ var AnimationLayer = cc.Layer.extend({
             }
         };
         if (self.combo >= MAX_COMBO) {
-            self.score += 1;
             self.combo = 0;
             self.comboAction();
         }
 
+        self.deployContainers()
+
         self.statusLayer.updateCombo(self.combo);
         self.statusLayer.updateScore(self.score);
+
 
         self.freeRemovedContainers();
     },
 
     comboAction: function() {
-        for (var i = 0; i < this.containers.length; i++) {
+        // for (var i = 0; i < this.containers.length; i++) {
+        //     if (this.containers[i].containerState === "Whale") {
+        //         this.containers[i].comboAction();
+        //     }
+        // }
+    },
+
+    deployContainers: function() {
+        var i, toDeploy = 0;
+        for (i = 0; i < this.containers.length; i++) {
             if (this.containers[i].containerState === "Whale") {
-                this.containers[i].comboAction();
+                toDeploy++;
+            }
+        }
+        if (toDeploy >= MAX_COMBO) {
+            this.score += 1;
+            for (i = 0; i < this.containers.length; i++) {
+                if (this.containers[i].containerState === "Whale") {
+                    this.containers[i].deploy();
+                }
             }
         }
     },

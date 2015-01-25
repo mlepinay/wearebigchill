@@ -137,10 +137,12 @@ var AnimationMultipleLayer = cc.Layer.extend({
             }
         };
         if (self.combo[0] >= MAX_COMBO) {
-            self.score[0] += 1;
+            // self.score[0] += 1;
             self.combo[0] = 0;
             self.comboAction(0);
         }
+
+        self.deployContainers(0);
 
         for (var i = this.containers[1].length - 1; i >= 0; i--) {
             var updateStatus = this.containers[1][i].update();
@@ -165,16 +167,35 @@ var AnimationMultipleLayer = cc.Layer.extend({
             }
         };
         if (self.combo[1] >= MAX_COMBO) {
-            self.score[1] += 1;
+            // self.score[1] += 1;
             self.combo[1] = 0;
             self.comboAction(1);
         }
+
+        self.deployContainers(1);
     },
 
     comboAction: function(player) {
-        for (var i = 0; i < this.containers[player].length; i++) {
+        // for (var i = 0; i < this.containers[player].length; i++) {
+        //     if (this.containers[player][i].containerState === "Whale") {
+        //         this.containers[player][i].comboAction();
+        //     }
+        // }
+    },
+
+    deployContainers: function(player) {
+        var i, toDeploy = 0;
+        for (i = 0; i < this.containers[player].length; i++) {
             if (this.containers[player][i].containerState === "Whale") {
-                this.containers[player][i].comboAction();
+                toDeploy++;
+            }
+        }
+        if (toDeploy >= 4) {
+            this.score[player] += 1;
+            for (i = 0; i < this.containers[player].length; i++) {
+                if (this.containers[player][i].containerState === "Whale") {
+                    this.containers[player][i].deploy();
+                }
             }
         }
     },

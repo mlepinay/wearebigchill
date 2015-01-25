@@ -30,7 +30,7 @@ function Whale(space, multiplayer) {
 
         self.body = new cp.Body(mass, cp.momentForBox(mass, bodySize.width, bodySize.height));
         if (multiplayer == 1) {
-            this.body.p = cc.p(200, WATER_HEIGHT + 10);            
+            this.body.p = cc.p(200, WATER_HEIGHT + 10);
         } else if (multiplayer == 2) {
             this.body.p = cc.p(600, WATER_HEIGHT + 10);
         } else {
