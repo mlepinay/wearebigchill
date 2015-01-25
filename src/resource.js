@@ -10,6 +10,8 @@ var res = {
     s_restart_s : "res/restart_s.png",
     s_single_player_n : "res/single_player_n.png",
     s_single_player_s : "res/single_player_s.png",
+    s_multi_player_n : "res/multi_player_n.png",
+    s_multi_player_s : "res/multi_player_s.png",
     container : "res/container.png",
     dockerize_menu : "res/dockerize_menu.png"
 };

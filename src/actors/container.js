@@ -179,7 +179,6 @@ function Container(space, startPos, type, multiplayer) {
         // self.body.applyImpulse(cp.v(0, -UP_FORCE), cp.v(0, 0));
         // console.log("")
         self.body.vx = 0;
-        console.log("User interaction stopped")
         isFalling = false;
     }
 

@@ -22,8 +22,8 @@ var MenuLayer = cc.LayerColor.extend({
 
         var multiPos = cc.p(312, winSize.height-336);
         var menuItemStartMulti = cc.MenuItemSprite.create(
-            cc.Sprite.create(res.s_single_player_n),
-            cc.Sprite.create(res.s_single_player_s),
+            cc.Sprite.create(res.s_multi_player_n),
+            cc.Sprite.create(res.s_multi_player_s),
             this.onStartMulti, this);
         var menuMulti = cc.Menu.create(menuItemStartMulti);
         menuMulti.setPosition(multiPos);
