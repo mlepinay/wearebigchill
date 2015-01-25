@@ -14,8 +14,11 @@ var GameScene = cc.Scene.extend({
         spritebg.setPosition(centerpos);
         this.addChild(spritebg);
 
-        var layer = new AnimationLayer(this.space);
+        var statusLayer =  new StatusLayer();
+        var layer = new AnimationLayer(this.space, statusLayer);
         this.addChild(layer);
+
+        this.addChild(statusLayer);
 
         if (window.location.href.match(/debug/)) {
           var debugNode = new cc.PhysicsDebugNode(this.space);

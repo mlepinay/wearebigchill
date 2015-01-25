@@ -99,7 +99,7 @@ function Container(space, startPos) {
             self.vanishFromWorld()
         }
 
-        if (self.containerState == "Water")
+        if (self.containerState == "Water" && this.sprite.y < WATER_HEIGHT - self.bodySize.height / 2)
             return "lostContainer";
 
         return (false);

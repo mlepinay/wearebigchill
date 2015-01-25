@@ -7,7 +7,7 @@ var GameOverLayer = cc.LayerColor.extend({
     },
 
     init:function () {
-        this._super();
+        this._super(cc.color(0, 0, 0, 150));
         var winSize = cc.director.getWinSize();
 
         var centerPos = cc.p(winSize.width / 2, winSize.height / 2);

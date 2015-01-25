@@ -3,13 +3,15 @@ var AnimationLayer = cc.Layer.extend({
     whale: null,
     waves: null,
     combo: 0,
+    score: 0,
     minusPoint: 0,
 
-    ctor:function (space) {
+    ctor:function (space, statusLayer) {
         //////////////////////////////
         // 1. super init first
         this._super();
         this.space = space;
+        this.statusLayer = statusLayer;
         this.init();
         this.initInput();
     },
@@ -93,7 +95,7 @@ var AnimationLayer = cc.Layer.extend({
                 var id = self.containers[i].shape.hashid;
                 if (!self.handleIdsMinus[id]) {
                     self.minusPoint += 1;
-                    if (self.minusPoint >= MAX_LOST_CONTAINERS) {
+                    if (self.minusPoint > MAX_LOST_CONTAINERS) {
                         self.menu = true;
                         self.addChild(new GameOverLayer(), 15);
                     }                 
@@ -102,9 +104,13 @@ var AnimationLayer = cc.Layer.extend({
             }
         };
         if (self.combo >= MAX_COMBO) {
+            self.score += 1;
             self.combo = 0;
             self.comboAction();
         }
+
+        self.statusLayer.updateCombo(self.combo);
+        self.statusLayer.updateScore(self.score);
 
         self.freeRemovedContainers();
     },
