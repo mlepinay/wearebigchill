@@ -18,7 +18,7 @@ var GameOverLayer = cc.LayerColor.extend({
             this.onRestart, this);
         var menu = cc.Menu.create(menuItemRestart);
         menu.setPosition(centerPos);
-        this.addChild(menu);
+        this.addChild(menu, 40);
     },
 
     onRestart:function (sender) {

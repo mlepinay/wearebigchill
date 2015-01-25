@@ -34,7 +34,7 @@ var MultiplayerScene = cc.Scene.extend({
         this.splitSprite.x = centerpos.x - 3;
         this.splitSprite.y = centerpos.y;
 
-        this.addChild(this.splitSprite, 20);
+        this.addChild(this.splitSprite, 4);
 
         this.scheduleUpdate();
     },

@@ -130,7 +130,7 @@ var AnimationMultipleLayer = cc.Layer.extend({
                     self.statusLayer.updateLivesP2(MAX_LOST_CONTAINERS - self.minusPoint[0]);
                     if (self.minusPoint[0] > MAX_LOST_CONTAINERS - 1) {
                         self.menu = true;
-                        self.addChild(new GameOverLayer(), 20);
+                        self.getParent().addChild(new GameOverLayer(), 20);
                     }
                     self.handleIdsMinus[id] = true;
                 }
@@ -160,7 +160,7 @@ var AnimationMultipleLayer = cc.Layer.extend({
                     self.statusLayer.updateLives(MAX_LOST_CONTAINERS - self.minusPoint[1]);
                     if (self.minusPoint[1] > MAX_LOST_CONTAINERS - 1) {
                         self.menu = true;
-                        self.addChild(new GameOverLayer(), 20);
+                        self.getParent().addChild(new GameOverLayer(), 20);
                     }
                     self.handleIdsMinus[id] = true;
                 }
@@ -190,7 +190,7 @@ var AnimationMultipleLayer = cc.Layer.extend({
                 toDeploy++;
             }
         }
-        if (toDeploy >= 4) {
+        if (toDeploy >= MAX_COMBO) {
             this.score[player] += 1;
             for (i = 0; i < this.containers[player].length; i++) {
                 if (this.containers[player][i].containerState === "Whale") {
