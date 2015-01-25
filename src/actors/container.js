@@ -1,12 +1,42 @@
+/* Configuration for different types of containers */
+var ContainerType = {
+    server: {},
+    database: {
+        color: cc.color(150,150,255,255),
+        weight: 2,
+        max_velocity_y: 50
+    },
+    cache: {
+        color: cc.color(255,0,0,0),
+        weight: 1,
+        max_velocity_x: 150
+    },
+    datawarehouse: {
+        scale: 0.4
+    }
+}
 
 
-function Container(space, startPos) {
+function Container(space, startPos, type) {
+    if (typeof type === "undefined" || !type || !ContainerType[type]) {
+        var availableTypes = [];
+        for (var t in ContainerType) availableTypes.push(t);
+        type = availableTypes[Math.floor(Math.random()*availableTypes.length)]
+    }
+    var stubType = ContainerType[type]
+    console.log(type)
     // CONSTANTS
-    var SPRITE_RES  = res.container;
-    var ROTATION    = 0.01;
-    var ROT_SPEED   = 0.04;
-    var MAX_VELOCITY    = 60;
-    var UP_FORCE    = 0.8;
+    var SPRITE_RES      = stubType.sprite           || res.container;
+    var ROTATION        = stubType.rotation         || 0.01;
+    var ROT_SPEED       = stubType.rot_speed        || 0.04;
+    var MAX_VELOCITY_X  = stubType.max_velocity_x   || 60;
+    var MAX_VELOCITY_Y  = stubType.max_velocity_y   || Infinity;
+    var COLOUR          = stubType.color            || new cc.color(255,255,255,255);
+    var WEIGHT          = stubType.weight           || 1;
+    var CONT_SCALE      = stubType.scale            || SCALE;
+    var UP_FORCE        = 0.8;
+
+    console.log(COLOUR)
 
     var self = this;
 
@@ -20,19 +50,19 @@ function Container(space, startPos) {
     // Initialization
     self.initialize = function() {
         self.sprite = new cc.Sprite(SPRITE_RES);
-        self.sprite.attr({ scale: SCALE });
+        self.sprite.attr({ scale: CONT_SCALE });
 
         self.bodySprite = new cc.PhysicsSprite(res.container);
 
         self.angle = 0;
 
         self.bodySize = self.bodySprite.getContentSize();
-        self.bodySize.width  *= SCALE;
-        self.bodySize.height *= SCALE;
+        self.bodySize.width  *= CONT_SCALE;
+        self.bodySize.height *= CONT_SCALE;
 
         self.size = self.bodySize.width;
 
-        var mass = 0.8*FLUID_DENSITY*self.bodySize.width*self.bodySize.height;
+        var mass = 0.8*FLUID_DENSITY*self.bodySize.width*self.bodySize.height*WEIGHT;
 
         self.body = new cp.Body(mass, cp.momentForBox(mass, self.bodySize.width, self.bodySize.height));
         this.body.p = cc.p(startPos[0], startPos[1]);
@@ -46,13 +76,14 @@ function Container(space, startPos) {
         space.addShape(this.shape);
         this.bodySprite.setBody(this.body);
 
+        this.sprite.color = COLOUR;
         this.sprite.x = this.bodySprite.x;
         this.sprite.y = this.bodySprite.y;
     }
 
     self.update = function() {
         if (self.removed)
-            return null            
+            return null
 
         if (WATER_HEIGHT >= (this.bodySprite.y - self.size)) {
             // self.angle += ROT_SPEED;
@@ -77,11 +108,18 @@ function Container(space, startPos) {
             if (pastSpeed >= this.body.vy + this.body.vy*0.2) {
                 this.body.applyImpulse(cp.v(0, UP_FORCE), cp.v(0, 0));
                 pastSpeed = this.body.vy;
-                if (this.body.vx >= MAX_VELOCITY || this.body.vx <= -MAX_VELOCITY) {
+                if (this.body.vx >= MAX_VELOCITY_X || this.body.vx <= -MAX_VELOCITY_X) {
                     if (this.body.vx > 0)
-                        this.body.vx = MAX_VELOCITY;
+                        this.body.vx = MAX_VELOCITY_X;
                     else
-                        this.body.vx = -MAX_VELOCITY;
+                        this.body.vx = -MAX_VELOCITY_X;
+                }
+
+                if (this.body.vy >= MAX_VELOCITY_Y || this.body.vy <= -MAX_VELOCITY_Y) {
+                    if (this.body.vy > 0)
+                        this.body.vy = MAX_VELOCITY_Y;
+                    else
+                        this.body.vy = -MAX_VELOCITY_Y;
                 }
             } else {
                 // COLLISION
@@ -107,12 +145,12 @@ function Container(space, startPos) {
 
     self.moveLeft = function() {
         if (isFalling && startFall) {
-            self.body.applyImpulse(cp.v(-MAX_VELOCITY/2, 0), cp.v(0, 0));
+            self.body.applyImpulse(cp.v(-MAX_VELOCITY_X/2, 0), cp.v(0, 0));
         }
     }
     self.moveRight = function() {
         if (isFalling && startFall) {
-            self.body.applyImpulse(cp.v(MAX_VELOCITY/2, 0), cp.v(0, 0));
+            self.body.applyImpulse(cp.v(MAX_VELOCITY_X/2, 0), cp.v(0, 0));
         }
     }
     self.stopMoving = function () {
@@ -153,7 +191,7 @@ function Container(space, startPos) {
         self.removed = true;
         self.sprite.visible = false;
         space.removeShape(self.shape);
-        space.removeBody(self.body);        
+        space.removeBody(self.body);
     }
 
     self.typeOfActor = "Container";
