@@ -189,7 +189,8 @@ function Container(space, startPos, type, multiplayer) {
         self.containerState = "Water";
     }
 
-    self.comboAction = function() {
+    self.deploy = function() {
+        self.containerState = "Deploying"
         self.startBlinking();
     }
 
@@ -214,7 +215,7 @@ function Container(space, startPos, type, multiplayer) {
             self.removed = true;
             self.sprite.visible = false;
             space.removeShape(self.shape);
-            space.removeBody(self.body);            
+            space.removeBody(self.body);
         }
     }
 
