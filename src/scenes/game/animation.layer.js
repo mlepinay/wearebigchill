@@ -44,8 +44,10 @@ var AnimationLayer = cc.Layer.extend({
                     var container = self.getContainerFromId(id);
 
                     if (container) {
-                        container.handleWaterTouch();
-                        handledIdsPlus[id] = true;
+                        if (container.sprite.y < WATER_HEIGHT - container.bodySize.height / 2) {
+                            container.handleWaterTouch();
+                            handledIdsPlus[id] = true;
+                        }
                     }
                 }
 

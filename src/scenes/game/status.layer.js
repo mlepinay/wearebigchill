@@ -97,7 +97,7 @@ var StatusLayer = cc.Layer.extend({
         this.labelScore.setPosition(cc.p(70 + offsetX, winsize.height - 20));
         this.addChild(this.labelScore);
 
-        this.labelPush = new cc.LabelTTF("wearebigchill@dockerize:~$ docker push", 20);
+        this.labelPush = new cc.LabelTTF("wearebigchill@dockerize:~$ docker push wearebigchill/game", 20);
         this.labelPush.setPosition(cc.p(winsize.width / 2, winsize.height - 20));
         this.addChild(this.labelPush);
         this.labelPush.visible = false;
@@ -180,7 +180,7 @@ var StatusLayer = cc.Layer.extend({
         this.labelPush.visible = true;
         setTimeout(function() {
             self.labelPush.visible = false;
-        }, 300)
+        }, 3000)
     }
 
 });
