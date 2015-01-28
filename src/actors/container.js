@@ -72,11 +72,11 @@ function Container(space, startPos, type, multiplayer) {
 
         self.body = new cp.Body(mass, cp.momentForBox(mass, self.bodySize.width, self.bodySize.height));
         if (multiplayer == 1) {
-            this.body.p = cc.p(200, startPos[1]);
+            this.body.p = cc.p(200, startPos[1] + self.bodySize.height / 2);
         } else if (multiplayer == 2) {
-            this.body.p = cc.p(600, startPos[1]);
+            this.body.p = cc.p(600, startPos[1] + self.bodySize.height / 2);
         } else {
-            this.body.p = cc.p(startPos[0], startPos[1]);
+            this.body.p = cc.p(startPos[0], startPos[1] + self.bodySize.height / 2);
         }
 
         space.addBody(this.body);

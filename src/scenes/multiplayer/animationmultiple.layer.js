@@ -26,10 +26,10 @@ var AnimationMultipleLayer = cc.Layer.extend({
 
         this.containers = [];
 
-        this.containers[0] = [new Container(this.space, [200, 500], "server", 1)];
+        this.containers[0] = [new Container(this.space, [200, 450], "server", 1)];
         this.addChild(this.containers[0][0].sprite, 0);
 
-        this.containers[1] = [new Container(this.space, [600, 500], "server", 2)];
+        this.containers[1] = [new Container(this.space, [600, 450], "server", 2)];
         this.addChild(this.containers[1][0].sprite, 0);
 
         this.whale = [];
@@ -119,7 +119,7 @@ var AnimationMultipleLayer = cc.Layer.extend({
 
             if (updateStatus == "requireContainer") {
                 self.combo[0] += 1;
-                container = new Container(self.space, [400,500], "server", 1);
+                container = new Container(self.space, [400,450], "server", 1);
                 self.addChild(container.sprite, 0);
                 self.containers[0].push(container);
             } else if (updateStatus == "lostContainer") {
@@ -149,7 +149,7 @@ var AnimationMultipleLayer = cc.Layer.extend({
 
             if (updateStatus == "requireContainer") {
                 self.combo[1] += 1;
-                container = new Container(self.space, [600,500], "server", 2);
+                container = new Container(self.space, [600,450], "server", 2);
                 self.addChild(container.sprite, 0);
                 self.containers[1].push(container);
             } else if (updateStatus == "lostContainer") {

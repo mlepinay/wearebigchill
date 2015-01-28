@@ -24,7 +24,7 @@ var AnimationLayer = cc.Layer.extend({
         this.handleIdsMinus = {};
         this.menu = false;
 
-        this.containers = [new Container(this.space, [400, 500])];
+        this.containers = [new Container(this.space, [400, 450])];
         this.addChild(this.containers[0].sprite, 0);
 
         this.whale = new Whale(this.space);
@@ -89,7 +89,7 @@ var AnimationLayer = cc.Layer.extend({
 
             if (updateStatus == "requireContainer") {
                 self.combo += 1;
-                container = new Container(self.space, [400,500], this.statusLayer.selectedContainer);
+                container = new Container(self.space, [400,450], this.statusLayer.selectedContainer);
                 self.addChild(container.sprite, 0);
                 self.containers.push(container);
             } else if (updateStatus == "lostContainer") {
