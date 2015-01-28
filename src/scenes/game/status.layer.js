@@ -97,6 +97,11 @@ var StatusLayer = cc.Layer.extend({
         this.labelScore.setPosition(cc.p(70 + offsetX, winsize.height - 20));
         this.addChild(this.labelScore);
 
+        this.labelPush = new cc.LabelTTF("wearebigchill@dockerize:~$ docker push", 20);
+        this.labelPush.setPosition(cc.p(winsize.width / 2, winsize.height - 20));
+        this.addChild(this.labelPush);
+        this.labelPush.visible = false;
+
         this.labelCombo = new cc.LabelTTF("Combo: "+this.combo+"/"+MAX_COMBO, "Helvetica", 20);
         this.labelCombo.setPosition(cc.p(winsize.width - 70, winsize.height - 20));
         this.addChild(this.labelCombo);
@@ -167,7 +172,15 @@ var StatusLayer = cc.Layer.extend({
         for (var i = 0; i < MAX_LOST_CONTAINERS - this.livesP2; i++) {
             this.livesSpritesP2[i].visible = false;
         };
-    }
+    },
 
+    dockerPush: function () {
+        var self = this;
+
+        this.labelPush.visible = true;
+        setTimeout(function() {
+            self.labelPush.visible = false;
+        }, 300)
+    }
 
 });

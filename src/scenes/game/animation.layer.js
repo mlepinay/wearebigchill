@@ -127,6 +127,8 @@ var AnimationLayer = cc.Layer.extend({
     },
 
     deployContainers: function() {
+        var self = this;
+
         var i, toDeploy = 0;
         for (i = 0; i < this.containers.length; i++) {
             if (this.containers[i].containerState === "Whale") {
@@ -140,6 +142,7 @@ var AnimationLayer = cc.Layer.extend({
                     this.containers[i].deploy();
                 }
             }
+            self.statusLayer.dockerPush();
         }
     },
 
